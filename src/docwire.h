@@ -70,6 +70,7 @@
 #include "translate_to.h"
 #include "type_name.h"
 #include "xml.h"
+#include "or_classify.h"
 // IWYU pragma: end_exports
 
 /**
