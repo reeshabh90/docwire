@@ -85,6 +85,15 @@ else()
 	set(WITH_ACCELERATE "OFF") # Apple Accelerate is not available on other platforms
 endif()
 
+# CTranslate2 v4.3.1 hits an ODR violation when CPU dispatch is enabled and
+# built with GCC 15 (confirmed on Ubuntu 26.04 CI): kernels.cc, kernels_avx.cc,
+# and kernels_avx2.cc each emit duplicate template instantiations for the
+# AVX2 CpuIsa variant, causing a linker error ("multiple definition of
+# ctranslate2::cpu::exp<(CpuIsa)2>...", etc.) across ~15 elementwise/
+# normalization functions. Disabling dispatch collapses these into a single TU,
+# avoiding the collision. This is scoped to Linux only because that is where the
+# failure was reproduced. Also, it is not yet confirmed whether MSVC/Clang builds hit
+# the same GCC-specific instantiation bug.
 set(CT2_EXTRA_OPTIONS "")
 if(VCPKG_TARGET_IS_LINUX)
     list(APPEND CT2_EXTRA_OPTIONS -DENABLE_CPU_DISPATCH=OFF)
