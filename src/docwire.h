@@ -43,9 +43,11 @@
 #include "local_ai_llama_detect_sentiment.h"
 #endif
 #ifdef DOCWIRE_LOCAL_AI
+#include "local_ai_find.h"
 #include "local_ai_summarize.h"
 #include "local_ai_translate.h"
 #include "local_ai_task.h"
+#include "local_ai_detect_sentiment.h"
 #endif
 #include "ai_elements.h"
 #include "classify.h"
