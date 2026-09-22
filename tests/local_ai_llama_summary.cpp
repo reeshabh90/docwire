@@ -1,5 +1,4 @@
 #include "docwire.h"
-#include "local_ai_summarize.h"
 #include <iostream>
 #include <sstream>
 

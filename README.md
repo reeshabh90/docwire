@@ -395,7 +395,9 @@ std::filesystem::path("test.zip") | content_type::detector{} | archives_parser{}
 [Full example](https://docwire.readthedocs.io/en/latest/parse_archives_8cpp-example.html)
 
 The examples below use `ai::local::ct2::*`, which comes with a built-in default CT2 model and needs no configuration. Alternatively, `ai::local::llama::*` can be used for integrating `.gguf` models with `llama.cpp` and running various tasks on them. 
-A backend-agnostic `ai::local::*` family also exists (`task`, `translate`, `summarize`) that takes an explicit runner instead, so it can be pointed at either `ai::local::ct2::make_default_runner()` or the llama.cpp backend via `ai::local::llama::make_runner(...)` / `make_default_runner()`.
+A backend-agnostic `ai::local::*` family also exists (`task`, `translate`, `summarize`) that takes an explicit runner instead, so it can be pointed at either `ai::local::ct2::make_default_runner()` or the llama.cpp backend via `ai::local::llama::make_runner(...)`.
+If `local-ai-model-granite` feature is enabled then 
+`ai::local::llama::make_default_runner()` can also be pointed at, as it configures default settings for the IBM Granite-4-1b-q8 model.
 
 Classify file in any format (Office, PDF, mail, etc) to any categories using built-in local AI model:
 
@@ -432,7 +434,7 @@ ensure(fuzzy_match::ratio(out_stream.str(), "El procesamiento de datos se refier
 Detect sentiment of document in any format (Office, PDF, mail, etc) using built-in local AI model:
 
 ```cpp
-std::filesystem::path("...") | ... | ai::local::ct2::task("Detect sentiment:\n\n") | out_stream;
+std::filesystem::path("...") | ... | ai::local::ct2::detect_sentiment() | out_stream;
 ensure(out_stream.str()) == "positive";
 ```
 [Full example](https://docwire.readthedocs.io/en/latest/local_ai_ct2_sentiment_8cpp-example.html)
@@ -470,8 +472,8 @@ ensure(fuzzy_match::ratio(out_stream.str(), "Data processing involves converting
 Find phrases, objects and events with smart matching in documents in any format (Office, PDF, mail, etc) using built-in local AI model:
 
 ```cpp
-std::filesystem::path("...") | ... | ai::local::ct2::task("Find sentence about \"data conversion\"...") | out_stream;
-ensure(out_stream.str()).is_one_of({ "Data processing refers to the activities performed on raw data to convert it into meaningful information."...
+std::filesystem::path("...") | ... | ai::local::ct2::find("data conversion") | out_stream;
+ensure(out_stream.str()).is_one_of({ "Data processing refers to the activities performed on raw data to convert it into meaningful information"...
 ```
 [Full example](https://docwire.readthedocs.io/en/latest/local_ai_ct2_find_8cpp-example.html)
 

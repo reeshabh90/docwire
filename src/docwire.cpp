@@ -146,7 +146,7 @@ create_local_runner(const boost::program_options::variables_map& vm)
             "Specify --local-ai-model, or rebuild with the local-ai-model-granite "
             "feature to get a built-in default.");
     #else
-        throw std::runtime_error("Default local AI model requires the local-ai-ct2 or local-ai-llama feature");
+        throw std::runtime_error("Default local AI model requires the local-ai-ct2 feature or local-ai-llama feature, which can be coupled with local-ai-model-granite feature.");
     #endif
 }
 #endif // DOCWIRE_LOCAL_AI
@@ -489,11 +489,11 @@ int main(int argc, char* argv[])
 			}
 		}
 	#else
-		if (vm.count("local-ai-prompt") || vm.count("local-ai-ct2-embed"))
+		if (vm.count("local-ai-ct2-embed"))
 		{
-			std::cerr << "Error: Local AI features requested, but this build does not include "
+			std::cerr << "Error: CT2 embedding requested, but this build does not include "
 			             "DOCWIRE_CT2 support.\n"
-			             "Rebuild with DOCWIRE_CT2 enabled to use --local-ai-prompt or "
+			             "Rebuild with DOCWIRE_CT2 enabled to use "
 			             "--local-ai-ct2-embed." << std::endl;
 			return 1;
 		}

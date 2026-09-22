@@ -47,7 +47,6 @@
 		{
 			"description": "Enable GGUF-based LLM inference (llama.cpp)",
 			"dependencies": [
-			{ "name": "docwire" },
 			"llama-cpp"
 			]
 		},

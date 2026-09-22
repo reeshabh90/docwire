@@ -1,4 +1,5 @@
 #include "docwire.h"
+#include "local_ai_llama_detect_sentiment.h"
 #include <iostream>
 #include <sstream>
 
@@ -16,11 +17,7 @@ int main(int argc, char *argv[]) {
 
     std::filesystem::path("data_processing_definition.doc") |
         content_type::detector{} | office_formats_parser{} |
-        plain_text_exporter() |
-        ai::local::llama::task("Detect sentiment and "
-                        "answer with exact sentiment category: positive, "
-                        "negative, mixed:\n\n",
-                        config) |
+        plain_text_exporter() | ai::local::llama::detect_sentiment(config) |
         out_stream;
     ensure(out_stream.str()) == "positive";
     std::cout << "Result: " + out_stream.str();
